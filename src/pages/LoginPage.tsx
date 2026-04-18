@@ -102,7 +102,7 @@ export function LoginPage() {
   );
 
   return (
-    <div className="min-h-screen flex items-start justify-center bg-slate-950 px-4 pt-20">
+    <div className="min-h-screen flex items-start justify-center bg-slate-950 px-4 pt-10 sm:pt-20">
       <div className="w-full max-w-md">
 
         {/* Logo */}
@@ -115,7 +115,7 @@ export function LoginPage() {
           <span className="text-white font-bold text-sm tracking-tight">SIP Admin</span>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-10">
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 sm:p-10">
 
           {/* Título */}
           <div className="text-center mb-8">

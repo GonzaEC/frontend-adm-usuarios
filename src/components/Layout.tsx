@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -42,6 +43,7 @@ const ROLE_COLORS: Record<string, string> = {
 export function Layout() {
   const { email, role, signOut, hasPermission } = useAuth();
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const visibleNav = NAV_ITEMS.filter((item) => {
     if (item.requiredRole && role !== item.requiredRole) return false;
@@ -51,6 +53,7 @@ export function Layout() {
 
   function handleSignOut() {
     signOut();
+    setMobileOpen(false);
     navigate('/login');
   }
 
@@ -59,11 +62,12 @@ export function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-950">
 
-      <header className="bg-slate-900 border-b border-slate-800 px-6 py-0 flex items-center justify-between sticky top-0 z-40">
+      {/* Header */}
+      <header className="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-0 flex items-center justify-between sticky top-0 z-40">
 
-        {/* Logo + nav */}
+        {/* Logo + nav desktop */}
         <div className="flex items-center">
-          <div className="flex items-center gap-2.5 py-4 pr-8 border-r border-slate-800">
+          <div className="flex items-center gap-2.5 py-4 pr-4 sm:pr-8 border-r border-slate-800">
             <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center shrink-0">
               <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -72,7 +76,8 @@ export function Layout() {
             <span className="font-bold text-white text-sm tracking-tight">SIP Admin</span>
           </div>
 
-          <nav className="flex pl-8 gap-1">
+          {/* Nav desktop */}
+          <nav className="hidden md:flex pl-6 gap-1">
             {visibleNav.map((item) => (
               <NavLink
                 key={item.to}
@@ -94,35 +99,104 @@ export function Layout() {
           </nav>
         </div>
 
-        {/* Usuario + salir */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2.5 py-4">
+        {/* Derecha desktop */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="hidden sm:flex items-center gap-2.5 py-4">
             <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 text-xs font-bold uppercase">
               {email?.[0] ?? '?'}
             </div>
-            <div className="hidden sm:flex flex-col leading-none">
-              <span className="text-slate-200 text-xs font-medium">{email}</span>
-            </div>
+            <span className="hidden lg:block text-slate-200 text-xs font-medium">{email}</span>
             <span className={`hidden sm:inline text-xs font-semibold px-2 py-0.5 rounded-full ring-1 ${roleClass}`}>
               {role}
             </span>
           </div>
 
-          <div className="w-px h-6 bg-slate-800" />
+          <div className="hidden sm:block w-px h-6 bg-slate-800" />
 
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 text-slate-400 hover:text-red-400 text-sm transition-colors py-4"
+            className="hidden md:flex items-center gap-1.5 text-slate-400 hover:text-red-400 text-sm transition-colors py-4"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            <span className="hidden sm:inline">Salir</span>
+            <span className="hidden lg:inline">Salir</span>
+          </button>
+
+          {/* Hamburger — solo mobile */}
+          <button
+            onClick={() => setMobileOpen((o) => !o)}
+            className="md:hidden p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+            aria-label="Menú"
+          >
+            {mobileOpen ? (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
           </button>
         </div>
       </header>
 
-      <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
+      {/* Menú mobile */}
+      {mobileOpen && (
+        <div className="md:hidden bg-slate-900 border-b border-slate-800 sticky top-[57px] z-30">
+          {/* Info usuario */}
+          <div className="flex items-center gap-3 px-4 py-4 border-b border-slate-800">
+            <div className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 text-sm font-bold uppercase shrink-0">
+              {email?.[0] ?? '?'}
+            </div>
+            <div className="min-w-0">
+              <p className="text-slate-200 text-sm font-medium truncate">{email}</p>
+              <span className={`inline-flex text-xs font-semibold px-2 py-0.5 rounded-full ring-1 ${roleClass}`}>
+                {role}
+              </span>
+            </div>
+          </div>
+
+          {/* Links */}
+          <nav className="px-3 py-2 space-y-0.5">
+            {visibleNav.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-indigo-600/20 text-indigo-300'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  }`
+                }
+              >
+                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                </svg>
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Salir */}
+          <div className="px-3 pb-3">
+            <button
+              onClick={handleSignOut}
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+            >
+              <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+      )}
+
+      <main className="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full">
         <Outlet />
       </main>
     </div>

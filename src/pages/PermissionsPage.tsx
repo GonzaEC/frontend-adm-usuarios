@@ -65,7 +65,7 @@ export function PermissionsPage() {
                     <div className="text-[11px] text-slate-600">ID #{p.id}</div>
                   </div>
                 </div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                <div className="flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shrink-0">
                   <button
                     onClick={() => setModalPermission(p)}
                     className="p-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200"

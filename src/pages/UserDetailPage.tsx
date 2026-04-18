@@ -91,11 +91,11 @@ export function UserDetailPage() {
 
       {/* Card principal */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="flex items-center gap-4">
             <Avatar email={user.email} />
-            <div>
-              <h1 className="text-lg font-bold text-white">{user.email}</h1>
+            <div className="min-w-0">
+              <h1 className="text-lg font-bold text-white break-all">{user.email}</h1>
               <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                 <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ring-1 ${roleClass}`}>
                   {user.role?.name ?? '—'}
@@ -111,7 +111,7 @@ export function UserDetailPage() {
           </div>
 
           {/* Acciones */}
-          <div className="flex gap-2 shrink-0">
+          <div className="flex gap-2 sm:shrink-0">
             <button
               onClick={() => setEditOpen(true)}
               className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition-colors"
