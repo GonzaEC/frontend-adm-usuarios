@@ -4,7 +4,6 @@ import { getUserById, deactivateUser, activateUser } from '../api/users';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { UserModal } from '../components/UserModal';
-import type { User } from '../types';
 
 const ROLE_COLORS: Record<string, string> = {
   ADMIN:     'bg-violet-500/20 text-violet-300 ring-violet-500/30',

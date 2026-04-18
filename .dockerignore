@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.vscode
+.idea
+npm-debug.log
+.env
+.env.*
+!.env.production
+Dockerfile
+.dockerignore
+README.md
