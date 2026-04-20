@@ -129,7 +129,7 @@ Gestión del catálogo de roles. Permite crear, editar nombre/descripción y adm
 Gestión del catálogo de permisos. Permite crear, editar y eliminar permisos. El campo descripción es opcional; si se omite, se genera automáticamente como `"Permiso para <NOMBRE>"`.
 
 ### Mi cuenta (`/cuenta`)
-Muestra el email y rol del usuario logueado. Permite cambiar la contraseña (requiere contraseña actual).
+Muestra el email y rol del usuario logueado. Permite cambiar la contraseña (requiere contraseña actual). .
 
 ## Endpoints del backend que consume
 
