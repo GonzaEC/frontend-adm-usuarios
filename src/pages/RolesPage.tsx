@@ -61,10 +61,28 @@ export function RolesPage() {
         {roles.length > 0 && (
           <div className="divide-y divide-slate-800/60">
             {roles.map((role) => (
-              <div key={role.id} className="group px-5 py-4 flex items-center gap-4 hover:bg-slate-800/40 transition-colors">
-                <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ring-1 shrink-0 ${ROLE_COLORS[role.name] ?? ROLE_COLORS.BASIC}`}>
-                  {role.name}
-                </span>
+              <div key={role.id} className="group px-4 sm:px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3 hover:bg-slate-800/40 transition-colors">
+                <div className="flex items-center justify-between gap-3 sm:contents">
+                  <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ring-1 shrink-0 ${ROLE_COLORS[role.name] ?? ROLE_COLORS.BASIC}`}>
+                    {role.name}
+                  </span>
+                  {/* Botones siempre visibles en mobile, hover en desktop */}
+                  <div className="flex items-center gap-2 sm:hidden">
+                    <button
+                      onClick={() => setModalRole(role)}
+                      className="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition-colors"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => confirmDelete(role)}
+                      disabled={removeRole.isPending}
+                      className="text-xs font-medium px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 ring-1 ring-red-500/20 transition-colors disabled:opacity-50"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap gap-1.5">
                     {role.permissions.length === 0 ? (
@@ -78,7 +96,8 @@ export function RolesPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                {/* Botones hover solo en desktop */}
+                <div className="hidden sm:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                   <button
                     onClick={() => setModalRole(role)}
                     className="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition-colors"
